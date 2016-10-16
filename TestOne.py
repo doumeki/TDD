@@ -18,7 +18,7 @@ class TestOne(unittest.TestCase):
         print('closed')
 
     def startwith(self):
-        print ('skakiow')
+        print ('startwith')
         self.chrome= webdriver.Ie()
         self.chrome.get('http://127.0.0.1:8000')
 

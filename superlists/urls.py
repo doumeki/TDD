@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+import lists.views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', admin.site.urls),
+    url(r'^$',lists.views.home_page), #新方法不用引号了，写上的参考过时了
 ]
