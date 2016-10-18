@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 # home_page = None
 def home_page(req):
-    return HttpResponse('<html><title>To-DO lists</title></html>')
+    return render(req,'home.html') #自动搜索Templates下的html文件
