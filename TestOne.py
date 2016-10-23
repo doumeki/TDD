@@ -37,7 +37,6 @@ class TestOne(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(any(row.text == '1: Buy peacock feathers' for row in rows),'New to-do item did not appear in table')
         self.fail("Finish the test !")
-        self.fail("Great")
 
 
 if __name__ == '__main__':
