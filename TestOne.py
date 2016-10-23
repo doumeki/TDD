@@ -3,7 +3,7 @@
 #Author DOUMEKI
 
 from selenium import  webdriver
-import unittest
+import unittest,time
 from selenium.webdriver.common.keys import  Keys
 
 #第一步，用Django创建一个项目， 命令 django-admin startproject <projectName>
@@ -33,14 +33,10 @@ class TestOne(unittest.TestCase):
         self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
 
         inputbox.send_keys(Keys.ENTER)
-
         table = self.chrome.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(any(row.text == '1: Buy peacock feathers' for row in rows),'New to-do item did not appear in table')
         self.fail("Finish the test !")
-
-
-
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
