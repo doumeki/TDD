@@ -20,8 +20,8 @@ class TestOne(unittest.TestCase):
 
     def startwith(self):
         print ('startwith')
-        # self.chrome= webdriver.Chrome()
-        self.chrome= webdriver.Ie()
+        self.chrome= webdriver.Chrome()
+        # self.chrome= webdriver.Ie()
         self.chrome.get('http://127.0.0.1:8000')
 
 
@@ -32,13 +32,12 @@ class TestOne(unittest.TestCase):
 
         inputbox = self.chrome.find_element_by_id('id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
-
+        inputbox.send_keys("Buy peacock feathers")
+        time.sleep(5)
         inputbox.send_keys(Keys.ENTER)
         table = self.chrome.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         # self.assertTrue(any(row.text == '1: Buy peacock feathers' for row in rows),'New to-do item did not appear in table')
-        for i in rows:
-            print(i.text)
         self.assertIn('1: Buy peacock feathers',[row.text for row in rows])
         self.fail("Finish the test !")
 
