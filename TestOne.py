@@ -5,6 +5,7 @@
 from selenium import  webdriver
 import unittest,time
 from selenium.webdriver.common.keys import  Keys
+from lists.models import  Item
 
 #第一步，用Django创建一个项目， 命令 django-admin startproject <projectName>
 #第二步，使用manage.py，创建一个本地web服务器，命令manage.py runserver
@@ -33,7 +34,6 @@ class TestOne(unittest.TestCase):
         inputbox = self.chrome.find_element_by_id('id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
         inputbox.send_keys("Buy peacock feathers")
-        time.sleep(5)
         inputbox.send_keys(Keys.ENTER)
         self.check_for_row_in_list_table('1: Buy peacock feathers')
 
@@ -51,6 +51,24 @@ class TestOne(unittest.TestCase):
         # self.assertTrue(any(row.text == '1: Buy peacock feathers' for row in rows),'New to-do item did not appear in table')
         self.assertIn(rowtext, [row.text for row in rows])
 
+class ItemModelTest(unittest.TestCase):
+    def test_saving_and_retrieving_items(self):
+        first_item = Item()
+        first_item.text = 'The first (ever) list item'
+        first_item.save()
+
+        second_item = Item()
+        second_item.text = 'Item the second'
+        second_item.save()
+
+        saved_items = Item.objects.all()
+        self.assertEqual(saved_items.count(),2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+
+        self.assertEqual(first_saved_item.text,'The first (ever) list item')
+        self.assertEqual(second_saved_item.text,'Item the second')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
