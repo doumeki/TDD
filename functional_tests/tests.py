@@ -5,13 +5,14 @@
 from selenium import  webdriver
 import unittest,time
 from selenium.webdriver.common.keys import  Keys
+from django.test import LiveServerTestCase
 
 
 #第一步，用Django创建一个项目， 命令 django-admin startproject <projectName>
 #第二步，使用manage.py，创建一个本地web服务器，命令manage.py runserver
 #第三步，类继承于testcase类，运行main方法后,可以自动运行test 方法。
 #第四步，查看创建的服务器地址，根据需要运行脚本
-class TestOne(unittest.TestCase):
+class TestOne(LiveServerTestCase):
 
     def setUp(self):
         self.startwith()
@@ -23,7 +24,8 @@ class TestOne(unittest.TestCase):
         print ('startwith')
         self.chrome= webdriver.Chrome()
         # self.chrome= webdriver.Ie()
-        self.chrome.get('http://127.0.0.1:8000')
+        # self.chrome.get('http://127.0.0.1:8000')
+        self.chrome.get(self.live_server_url)
 
 
     def test_can_start_a_list_and_retrivew_it_later(self):
@@ -42,7 +44,7 @@ class TestOne(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
 
         self.check_for_row_in_list_table('1: Buy peacock feathers')
-        self.check_for_row_in_list_table('2: Use peacock feathers to make fly')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
         self.fail("Finish the test !")
 
     def check_for_row_in_list_table(self,rowtext):
@@ -52,7 +54,6 @@ class TestOne(unittest.TestCase):
         self.assertIn(rowtext, [row.text for row in rows])
 
 
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+# if __name__ == '__main__':
+#     unittest.main(warnings='ignore')
 
