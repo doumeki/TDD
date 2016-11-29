@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 import re
 from lists.models import  Item
+from django.test import LiveServerTestCase
 
 
 # Create your tests here.
