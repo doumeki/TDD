@@ -29,6 +29,7 @@ class TestOne(LiveServerTestCase):
 
 
     def test_can_start_a_list_and_retrivew_it_later(self):
+        edith_list_url = self.chrome.current_url
         self.assertIn('To-Do',self.chrome.title)
         header_text = self.chrome.find_element_by_tag_name('h1').text
         self.assertIn("To-Do",header_text)
@@ -47,32 +48,31 @@ class TestOne(LiveServerTestCase):
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
         # self.fail("Finish the test !")
 
-        self.chrome.quit()
+        self.n_live(edith_list_url)
+
+    def n_live(self, edith_list_url):
         self.chrome = webdriver.Chrome()
-
-        #断言第二个人看不到第一个人输入的信息
         self.chrome.get(self.live_server_url)
+        # 断言第二个人看不到第一个人输入的信息
         page_text = self.chrome.find_element_by_tag_name('body').text
-        self.assertNotIn("Buy peacock feathers'",page_text)
-        self.assertNotIn("make a fly",page_text)
-
+        self.assertNotIn("Buy peacock feathers'", page_text)
+        self.assertNotIn("make a fly", page_text)
         inputbox = self.chrome.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
-
-        #新来的人获得唯一的URL
+        # 新来的人获得唯一的URL
         francis_list_url = self.chrome.current_url
-        self.assertRegex(francis_list_url,'lists/.+')
-        self.assertNotEqual(francis_list_url,edith_list_url)
-
-        #这个页面依然没有前一个人的信息
+        self.assertRegex(francis_list_url, 'lists/.+')
+        # edith_list_url = None
+        self.assertNotEqual(francis_list_url, edith_list_url)
+        # 这个页面依然没有前一个人的信息
         page_text = self.chrome.find_element_by_tag_name('body').text
         self.assertNotIn("Buy peacock feathers'", page_text)
         self.assertNotIn("make a fly", page_text)
 
-
-
-
+    def test_live(self):
+        self.chrome.close() #使用这个方法而不使用Quit则不会出错
+        self.n_live('http://localhost:8081/')
 
     def check_for_row_in_list_table(self,rowtext):
         table = self.chrome.find_element_by_id('id_list_table')

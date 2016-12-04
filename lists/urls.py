@@ -20,11 +20,8 @@ import lists.views
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     # url(r'^aio$',lists.views.other_page),
-    url(r'^$',lists.views.home_page), #新方法不用引号了，写上的参考过时了
-    # url(r'^lists/(.+)/$',lists.views.view_list,name='view_lists'), #可通过group传递参数
-    url(r'^lists/(\d+)/$',lists.views.view_list,name='view_lists'), #可通过group传递参数
-    url(r'^lists/(\d+)/add_item$',lists.views.add_item,name='add_item'), #可通过group传递参数
-    url(r'^lists/new$',lists.views.new_list,name='new_list'),
-
+    url(r'^(\d+)/$',lists.views.view_list,name = 'view_list'),
+    url(r'^(\d+)/add_item$',lists.views.add_item,name = 'add_item'),
+    url(r'^new$',lists.views.new_list,name = 'new_list'),
 
 ]
